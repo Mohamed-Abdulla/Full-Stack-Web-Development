@@ -1,0 +1,22 @@
+:root {
+  --main: teal;
+}
+
+* {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  /* font-family: "Urbanist", sans-serif; */
+}
+a {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(179, 179, 179);
+}
