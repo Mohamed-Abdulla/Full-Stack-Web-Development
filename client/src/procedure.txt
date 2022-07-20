@@ -1,0 +1,12 @@
+1.get data from tmdb api
+2.then use axios to send  req to get data from api 
+
+for that--- 
+ 1.create a request.js file 
+ 2.to pass the req create axios.js file and create instance in that 
+
+ <---then layout for front end ---->
+
+ 1.header
+ 2.movie component--> navbar,banner and row component from movies
+

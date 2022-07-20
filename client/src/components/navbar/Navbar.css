@@ -1,0 +1,44 @@
+.nav {
+  display: flex;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px;
+  justify-content: space-between;
+  box-sizing: border-box;
+  /* animation */
+  transition-timing-function: ease-in;
+  transition: all 0.5s;
+}
+.nav-black {
+  background-color: #111;
+}
+.nav-logo {
+  width: 80px;
+  object-fit: contain;
+}
+
+.nav-avatar {
+  width: 30px;
+  object-fit: contain;
+  cursor: pointer;
+  position: relative;
+  margin-right: 30px;
+}
+.options {
+  display: none;
+  background-color: #0b0b0b;
+  color: white;
+  border-radius: 5px;
+}
+
+.options span {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.profile:hover .options {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+}
