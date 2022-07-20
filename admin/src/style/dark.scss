@@ -1,0 +1,90 @@
+.app.dark {
+  background-color: #121212;
+  // color: rgb(156, 156, 156);
+  color: #ffffff;
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(179, 179, 179);
+  }
+
+  .chartGrid {
+    stroke: rgba(228, 228, 228, 0.219);
+  }
+  .chart,
+  .featured,
+  .widget {
+    -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+    box-shadow: 2px 4px 10px 1px #23193e;
+  }
+
+  .table {
+    background-color: #121212;
+    .tableCell {
+      color: lightgray;
+    }
+  }
+
+  .navbar {
+    color: #ffffff;
+    border-color: #333;
+
+    .search {
+      border-color: gray;
+    }
+  }
+
+  .sidebar {
+    background-color: #121212;
+    border-color: #333;
+
+    .top {
+      .logo,
+      span {
+        // color: #999;
+        color: lightgray;
+      }
+    }
+    hr {
+      border-color: #333;
+    }
+
+    ul {
+      li {
+        &:hover {
+          background-color: #333;
+        }
+
+        .icon {
+          // color: #999;
+          color: lightgray;
+        }
+      }
+    }
+  }
+
+  .datatable {
+    .datagrid {
+      // color: gray;
+      color: lightgray;
+      border: none;
+
+      .viewButton,
+      .deleteButton,
+      .cellWithStatus {
+        // color: gray;
+        color: lightgray;
+        border: none;
+      }
+    }
+  }
+
+  input {
+    background-color: transparent;
+  }
+}
