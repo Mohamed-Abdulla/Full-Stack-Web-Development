@@ -1,0 +1,14 @@
+.about,
+.averagecost,
+.cuisine {
+  color: #192f60;
+}
+
+.about h4,
+h5 {
+  font-size: 20px;
+}
+
+.phone {
+  color: red;
+}
