@@ -1,4 +1,4 @@
-1.i need a output result like this
+1.i need a output result like this  -SOLVED
 
 RESTAURANT SCHEMA - RES OUTPUT
 

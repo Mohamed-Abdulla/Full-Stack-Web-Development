@@ -96,25 +96,4 @@ export const filterRes = async (req, res, next) => {
   if (location) {
     filters.locality = locality;
   }
-  // if (cusine) {
-  //   filters["cusine.name"] = {
-  //     $in: cusine,
-  //   };
-  // }
-  if (hcost) {
-    filters.cost = {
-      $lt: hcost,
-    };
-  }
-  if (lcost) {
-    filters.cost = {
-      $gt: lcost,
-    };
-  }
-  if (lcost && hcost) {
-    filters.cost = {
-      $lt: hcost,
-      $gt: lcost,
-    };
-  }
 };
