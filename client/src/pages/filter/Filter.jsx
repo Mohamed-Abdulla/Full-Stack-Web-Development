@@ -25,15 +25,13 @@ const Filter = () => {
           console.log(error);
         }
       } else {
-        const res = await axios.get(`/find/menu/query?name=${mealtype}`);
+        const res = await axios.get(`/res/find/menu/query?name=${mealtype}`);
         setData(res.data);
       }
     };
     res();
   }, [city, mealtype]);
 
-  const show = () => {};
-  show();
   const [filter, setFilter] = useState({});
   return (
     <Box>

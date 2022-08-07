@@ -2,6 +2,30 @@ import mongoose from "mongoose";
 import Restaurant from "../models/Restaurant.js";
 import Menu from "../models/Menu.js";
 
+export const createRes = async (req, res, next) => {
+  const rest = new Restaurant(req.body);
+  try {
+    const savedRes = await rest.save();
+    res.status(200).json(savedRes);
+  } catch (err) {
+    next(err);
+  }
+};
+export const updateRes = async (req, res, next) => {
+  try {
+    const updatedres = await Restaurant.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedres);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getCityList = async (req, res, next) => {
   const { c } = req.query;
   try {
@@ -51,8 +75,9 @@ export const getResbyId = async (req, res, next) => {
 export const getResByMenu = async (req, res, next) => {
   const { name, page } = req.query;
   try {
-    const result = await Restaurant.find({ "menus.meal_type": name })
-
+    const result = await Restaurant.find({
+      "menus.meal_type": name,
+    })
       // .skip((page - 1) * 2)
       .limit(2);
     res.status(200).json(result);
@@ -61,26 +86,35 @@ export const getResByMenu = async (req, res, next) => {
   }
 };
 
-export const sortByRange = async (req, res, next) => {
-  const { range } = req.query;
-  try {
-    if (range === "lowToHigh") {
-      let result = await Menu.find()
-        .sort({ cost: 1 })
-        .populate("restaurantID")
-        // .skip((page - 1) * 2)
-        .limit(2);
+export const filterRes = async (req, res, next) => {
+  const { mealtype, locality, cusine, hcost, lcost, sort = 1, page = 1 } = req.body;
+  let filters = {};
 
-      res.status(200).json(result);
-    } else {
-      let result = await Menu.find()
-        .sort({ cost: -1 })
-        .populate("restaurantID")
-        // .skip((page - 1) * 2)
-        .limit(2);
-      res.status(200).json(result);
-    }
-  } catch (error) {
-    next(error);
+  if (mealtype) {
+    filters.mealtype_id = mealtype;
+  }
+  if (location) {
+    filters.locality = locality;
+  }
+  // if (cusine) {
+  //   filters["cusine.name"] = {
+  //     $in: cusine,
+  //   };
+  // }
+  if (hcost) {
+    filters.cost = {
+      $lt: hcost,
+    };
+  }
+  if (lcost) {
+    filters.cost = {
+      $gt: lcost,
+    };
+  }
+  if (lcost && hcost) {
+    filters.cost = {
+      $lt: hcost,
+      $gt: lcost,
+    };
   }
 };

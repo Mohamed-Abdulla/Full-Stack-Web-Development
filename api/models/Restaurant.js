@@ -13,7 +13,15 @@ const restaurantSchema = new mongoose.Schema(
     thumb: String,
     address: String,
     contact_number: String,
-    menus: [{ type: mongoose.Types.ObjectId, ref: "Menu" }],
+    // menus: [{ type: mongoose.Types.ObjectId, ref: "Menu" }],
+    menus: [
+      {
+        name: String,
+        meal_type: String,
+        cusine: String,
+        cost: Number,
+      },
+    ],
   },
   { timestamps: true }
 );

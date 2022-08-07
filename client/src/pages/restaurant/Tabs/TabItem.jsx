@@ -4,10 +4,9 @@ import "./tabs.css";
 
 const TabItem = ({ id }) => {
   const { data, loading, error } = useFetch(`/res/find/${id}`);
-  console.log(data);
-  const value = data[0];
-
-  const cost = value?.type.map((item) => item.cost);
+  const menu = data?.menus;
+  let cost = menu?.map((item) => item?.cost);
+  cost = cost?.reduce((a, b) => a + b, 0) / cost?.length;
 
   return (
     <Tabs>
@@ -21,13 +20,13 @@ const TabItem = ({ id }) => {
           <h4>About this place</h4>
           <div className="cuisine">
             <h5>Cuisine</h5>
-            {value?.type.map((item) => (
-              <span>{item.meal_type} | </span>
+            {menu?.map((item) => (
+              <span>{item.cusine} | </span>
             ))}
           </div>
           <div className="averagecost">
             <h5>Average Cost</h5>
-            <span> {cost?.[0]} for two people(approx.)</span>
+            <span>{cost} for two people(approx.)</span>
           </div>
         </div>
       </TabPanel>
