@@ -39,21 +39,7 @@ export const getResbyCity = async (req, res, next) => {
 export const getResbyId = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const result = await Restaurant.aggregate([
-      {
-        $match: { _id: mongoose.Schema.Types.ObjectId(id) },
-      },
-      {
-        $lookup: {
-          from: "menus",
-          localField: "_id",
-          foreignField: "restaurantID",
-          as: "type",
-        },
-      },
-    ]);
-    // const result=await Restaurant.findb
-
+    const result = await Restaurant.findById(id);
     res.status(200).json(result);
   } catch (error) {
     next(error);
@@ -65,9 +51,8 @@ export const getResbyId = async (req, res, next) => {
 export const getResByMenu = async (req, res, next) => {
   const { name, page } = req.query;
   try {
-    const result = await Restaurant.find({
-      "menus.meal_type": name,
-    })
+    const result = await Restaurant.find({ "menus.meal_type": name })
+
       // .skip((page - 1) * 2)
       .limit(2);
     res.status(200).json(result);

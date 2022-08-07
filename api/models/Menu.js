@@ -6,7 +6,7 @@ const menuSchema = new mongoose.Schema(
     meal_type: String, //snack
     cusine: String, //fastfood
     cost: String, //200
-    restaurantID: [{ type: mongoose.Types.ObjectId, ref: "Restaurant" }], //defining relationship to restaurant
+    restaurantID: { type: mongoose.Types.ObjectId, ref: "Restaurant" }, //defining relationship to restaurant
   },
   { timestamps: true }
 );
