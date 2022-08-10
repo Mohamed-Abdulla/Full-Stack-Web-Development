@@ -87,13 +87,45 @@ export const getResByMenu = async (req, res, next) => {
 };
 
 export const filterRes = async (req, res, next) => {
-  const { mealtype, locality, cusine, hcost, lcost, sort = 1, page = 1 } = req.body;
+  const { location, priceRange, sort } = req.body;
   let filters = {};
 
-  if (mealtype) {
-    filters.mealtype_id = mealtype;
-  }
   if (location) {
-    filters.locality = locality;
+    filters.locality = location;
   }
+  if (priceRange) {
+    filters.menus.cost = { $gte: priceRange[0], $lte: priceRange[1] };
+  }
+  if (sort) {
+    if (sort === 0) {
+      filters.menus.cost = {
+        $lte: cost,
+      };
+    } else {
+      filters.menus.cost = {
+        $gte: cost,
+      };
+    }
+  }
+
+  Restaurant.find(filters)
+    .sort({ "menus.cost": sort })
+    .then((success) => {
+      //pagination
+      // const pageSize = 2;
+      // var result = success.slice(page * pageSize - pageSize, page * pageSize);
+
+      res.status(200).json({
+        message: req.body,
+        // Restaurants: result,
+        // pageNo: page,
+        // noOfPages: Math.ceil(success.length / pageSize),
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: "error occured",
+        Error: err,
+      });
+    });
 };

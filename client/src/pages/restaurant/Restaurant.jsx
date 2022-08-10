@@ -53,7 +53,7 @@ const Restaurant = () => {
             </Button>
           </Box>
 
-          <Checkout open={open} handleClose={handleClose} />
+          <Checkout open={open} handleClose={handleClose} data={data} />
 
           <Box sx={{ width: "100%" }}>
             <TabItem id={id} />

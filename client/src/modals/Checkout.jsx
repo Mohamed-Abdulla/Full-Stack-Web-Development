@@ -1,6 +1,8 @@
 import { Backdrop, Box, Button, Fade, Grid, Modal, styled, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+import Dish from "../components/Dish/Dish";
 
-const Checkout = ({ open, handleClose }) => {
+const Checkout = ({ open, handleClose, data }) => {
   const style = {
     position: "absolute",
     top: "50%",
@@ -13,7 +15,17 @@ const Checkout = ({ open, handleClose }) => {
     p: 4,
   };
 
-  const handleSubmit = async (e) => {};
+  const menu = data?.menus;
+
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
 
   const StyledTextField = styled(TextField)(({ theme }) => ({
     margin: theme.spacing(3, 0, 2),
@@ -42,46 +54,17 @@ const Checkout = ({ open, handleClose }) => {
                 width: "100%",
                 marginTop: 3,
               }}
-              onSubmit={handleSubmit}
+              onSubmit={handleQuantity}
             >
               <Grid container spacing={2}>
                 <Grid item>
-                  <StyledTextField
-                    name="name"
-                    label="Name"
-                    // onChange={handleChange}
-                    placeholder="Enter your name"
-                    autoFocus
-                    type="text"
-                    fullWidth
-                    required
-                    variant="outlined"
-                  />
-                  <StyledTextField
-                    name="mobile"
-                    label="Mobile Number"
-                    placeholder="Enter mobile number"
-                    // onChange={handleChange}
-                    type="text"
-                    fullWidth
-                    required
-                    variant="outlined"
-                  />
-                  <StyledTextField
-                    id="outlined-multiline-static"
-                    name="address"
-                    label="Address"
-                    placeholder="Enter your address" // onChange={handleChange}
-                    type="text"
-                    fullWidth
-                    multiline
-                    rows={4}
-                    required
-                    variant="outlined"
-                  />
-                  <Box display="flex" justifyContent="flex-end" marginTop={1}>
+                  {menu?.map((item) => (
+                    <Dish item={item} handleQuantity={handleQuantity} quantity={quantity} />
+                  ))}
+                  <Typography variant="h6">Sub Total : {menu?.cost * quantity}</Typography>
+                  <Box display="flex" justifyContent="flex-end" marginTop={1} fontWeight="500">
                     <Button variant="contained" color="error">
-                      proceed
+                      Pay Now
                     </Button>
                   </Box>
                 </Grid>

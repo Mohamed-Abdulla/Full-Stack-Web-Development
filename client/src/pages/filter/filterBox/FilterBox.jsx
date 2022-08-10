@@ -18,8 +18,12 @@ const FilterBox = ({ setFilter, data }) => {
   const [range, setRange] = useState("");
   const [location, setLocation] = useState([]);
   const locality = data?.map((data) => data.locality);
-  const [filters, setFilters] = useState({});
-  const [checkedState, setCheckedState] = useState(new Array(cusine.length).fill(false));
+  const [filters, setFilters] = useState({
+    locality: "",
+    cusine: [],
+    priceRange: 0,
+    sort: 0,
+  });
 
   const handleFilters = (e) => {
     const value = e.target.value;
@@ -30,6 +34,19 @@ const FilterBox = ({ setFilter, data }) => {
 
     // setIsChecked(!isChecked);
   };
+
+  useEffect(() => {
+    const data = async () => {
+      try {
+        const res = await axios.get("/res/filter", filters);
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    data();
+  }, [filters]);
+  console.log(filters);
 
   return (
     <>
@@ -42,7 +59,7 @@ const FilterBox = ({ setFilter, data }) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          name="location"
+          name="locality"
           label="location"
           onChange={handleFilters}
         >
@@ -56,31 +73,31 @@ const FilterBox = ({ setFilter, data }) => {
       </Typography>
       <FormGroup>
         <FormControlLabel
-          control={<Checkbox defaultChecked size="small" onChange={handleFilters} checked={isChecked} />}
+          control={<Checkbox defaultChecked size="small" onChange={handleFilters} />}
           label="North Indian"
           value="North Indian"
           name="cusine"
         />
         <FormControlLabel
-          control={<Checkbox size="small" onChange={handleFilters} checked={isChecked} />}
+          control={<Checkbox size="small" onChange={handleFilters} />}
           label="South Indian"
           value="South Indian"
           name="cusine"
         />
         <FormControlLabel
-          control={<Checkbox size="small" onChange={handleFilters} checked={isChecked} />}
+          control={<Checkbox size="small" onChange={handleFilters} />}
           label="Chinese"
           value="Chinese"
           name="cusine"
         />
         <FormControlLabel
-          control={<Checkbox size="small" onChange={handleFilters} checked={isChecked} />}
+          control={<Checkbox size="small" onChange={handleFilters} />}
           label="Fast Food"
           value="Fast Food"
           name="cusine"
         />
         <FormControlLabel
-          control={<Checkbox size="small" onChange={handleFilters} checked={isChecked} />}
+          control={<Checkbox size="small" onChange={handleFilters} />}
           label="Street Food"
           value="Street Food"
           name="cusine"
@@ -93,7 +110,7 @@ const FilterBox = ({ setFilter, data }) => {
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
           defaultValue="female"
-          name="price-range"
+          name="priceRange"
           onChange={handleFilters}
         >
           <FormControlLabel value="0" control={<Radio size="small" />} label="Less than ` 500" />
