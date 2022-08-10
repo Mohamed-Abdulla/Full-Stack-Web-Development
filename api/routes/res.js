@@ -4,7 +4,6 @@ import {
   getResName,
   getResbyId,
   getResbyCity,
-  sortByRange,
   getResByMenu,
   createRes,
   updateRes,
@@ -34,9 +33,5 @@ router.get("/find/menu/query", getResByMenu);
 
 //~filters
 router.get("/filter", filterRes);
-
-//~sort by price
-
-router.get("/sort", sortByRange);
 
 export default router;

@@ -43,7 +43,7 @@ const Filter = () => {
           </Typography>
           <Box display="flex" gap={5}>
             <StyledFilter>
-              <FilterBox setFilter={setFilter} city={city} mealtype={mealtype} />
+              <FilterBox setFilter={setFilter} city={city} mealtype={mealtype} data={data} />
             </StyledFilter>
             <Box>
               {data &&
@@ -54,9 +54,9 @@ const Filter = () => {
                 ))}
             </Box>
           </Box>
-          <Box display="flex" alignItems="center" justifyContent="center" my={2}>
+          {/* <Box display="flex" alignItems="center" justifyContent="center" my={2}>
             <Pagination count={10} color="standard" />
-          </Box>
+          </Box> */}
         </Container>
       </Grow>
     </Box>

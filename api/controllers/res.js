@@ -79,7 +79,7 @@ export const getResByMenu = async (req, res, next) => {
       "menus.meal_type": name,
     })
       // .skip((page - 1) * 2)
-      .limit(2);
+      .limit(10);
     res.status(200).json(result);
   } catch (error) {
     next(error);

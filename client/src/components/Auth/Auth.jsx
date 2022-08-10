@@ -1,9 +1,8 @@
 import { Button, Paper, Grid, Typography, Container, Modal, Fade, Backdrop } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
-import jwt_decode from "jwt-decode";
 import axios from "axios";
 
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "react-google-login";
 
 import Input from "./Input";
 import { useContext, useState } from "react";
@@ -27,15 +26,13 @@ const Auth = ({ open, handleClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
 
-  const createOrGetUser = async (user) => {
-    // const decoded = await jwt_decode(user?.credential);
-    // try {
-    //   // dispatch({ type: AUTH, payload: decoded });
-    //   console.log(decoded);
-    //   navigate("/");
-    // } catch (error) {
-    //   console.log(error);
-    // }
+  const client_id = "1042033924959-8fmtjau0somhl015v3128uqho1vop8gc.apps.googleusercontent.com";
+
+  const onFailure = (response) => {
+    console.log(response);
+  };
+  const onSuccess = (response) => {
+    console.log(response);
   };
 
   const handleSubmit = async (e) => {
@@ -122,15 +119,17 @@ const Auth = ({ open, handleClose }) => {
               <StyledSubmitButton type="submit" fullWidth variant="contained" color="error">
                 {isSignup ? "Sign Up" : "Sign In"}
               </StyledSubmitButton>
-              {/* <GoogleLogin
-              onSuccess={(res) => {
-                createOrGetUser(res);
-              }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-              cookiePolicy="single_host_origin"
-            /> */}
+              <Button type="submit" fullWidth>
+                <GoogleLogin
+                  clientId={client_id}
+                  buttonText="Continue with Google"
+                  style={{ cursor: "pointer" }}
+                  onSuccess={onSuccess}
+                  onFailure={onFailure}
+                  cookiePolicy={"single_host_origin"}
+                  isSignedIn={true}
+                />
+              </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Button sx={{ marginTop: 1 }} onClick={switchMode}>
