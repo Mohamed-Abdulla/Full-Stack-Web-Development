@@ -34,8 +34,7 @@ const TopButton = styled.button`
   font-weight: 600;
   cursor: pointer;
   border: ${(props) => props.type === "filled" && "none"};
-  background-color: ${(props) =>
-    props.type === "filled" ? "black" : "transparent"};
+  background-color: ${(props) => (props.type === "filled" ? "black" : "transparent")};
   color: ${(props) => props.type === "filled" && "white"};
 `;
 const TopTexts = styled.div`
@@ -71,6 +70,8 @@ const ProductDetail = styled.div`
 
 const Image = styled.img`
   width: 200px;
+  ${mobile({ width: "150px" })}
+
   cursor: pointer;
 `;
 
@@ -226,9 +227,7 @@ function Cart() {
                       <ProductAmount>{product.quantity}</ProductAmount>
                       <Remove />
                     </ProductAmountContainer>
-                    <ProductPrice>
-                      ₹ {product.price * product.quantity}
-                    </ProductPrice>
+                    <ProductPrice>₹ {product.price * product.quantity}</ProductPrice>
                   </PriceDetail>
                   <DeleteIcon>
                     <Delete onClick={() => handledelete(index)} />

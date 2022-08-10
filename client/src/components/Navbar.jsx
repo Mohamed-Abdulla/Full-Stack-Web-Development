@@ -53,7 +53,8 @@ const DataResult = styled.div`
   padding: 10px;
   top: 30px;
   left: 40px;
-  height: fit-content;
+  ${mobile({ left: "5px" })}
+  height: 250px;
   width: 168px;
   background-color: white;
   overflow: hidden;
@@ -113,9 +114,7 @@ const Navbar = () => {
     setQuery(e.target.value);
     const res = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/products/search?title=${query}`
-        );
+        const response = await axios.get(`http://localhost:5000/api/products/search?title=${query}`);
         setData(response.data);
       } catch (error) {
         console.log("error");

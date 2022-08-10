@@ -3,25 +3,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { userRequest, currentUser } from "../utils/requestMethods";
 import { Link, useNavigate } from "react-router-dom";
+import { mobile } from "../utils/responsive";
+import logo from "../images/Web Mall.png";
 
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
+  ${mobile({ flexDirection: "column", overflowY: "scroll", height: "100%", width: "100%" })}
   justify-content: center;
   align-items: center;
 `;
 const Image = styled.img`
-  height: 100px;
-  width: 350px;
-  object-fit: contain;
+  height: 150px;
+  width: 150px;
+  margin-right: 100px;
+  ${mobile({ margin: "20px 0px  ", height: "100px", width: "100px" })}
+  border-radius: 50%;
+  object-fit: cover;
 `;
 
 const Wrapper = styled.div`
   width: 40%;
-  padding-right: 30px;
   background-color: white;
-  border-radius: 5px;
 `;
 
 const Title = styled.h1`
@@ -147,7 +151,7 @@ function Checkout() {
   }
   return (
     <Container>
-      <Image src="https://raw.githubusercontent.com/mohamed-abdulla/Java-DSA-Course/master/Web%20Mall-logos_black-cropped.png" />
+      <Image src={logo} />
       <Wrapper>
         <Title>ENTER YOUR DELIVERY DETAILS</Title>
         <Form>
@@ -159,25 +163,13 @@ function Checkout() {
             <Option>U.K</Option>
           </Select>
           <Label>Full Name</Label>
-          <Input
-            placeholder="Full Name"
-            onChange={(e) => setFullname(e.target.value)}
-          />
+          <Input placeholder="Full Name" onChange={(e) => setFullname(e.target.value)} />
           <Label>Mobile Number</Label>
-          <Input
-            placeholder="Mobile Number"
-            onChange={(e) => setNumber(e.target.value)}
-          />
+          <Input placeholder="Mobile Number" onChange={(e) => setNumber(e.target.value)} />
           <Label>Pincode</Label>
-          <Input
-            placeholder="6 digits [0-9] PIN code"
-            onChange={(e) => setPincode(e.target.value)}
-          />
+          <Input placeholder="6 digits [0-9] PIN code" onChange={(e) => setPincode(e.target.value)} />
           <Label>Address</Label>
-          <Input
-            placeholder="Address"
-            onChange={(e) => setAddress(e.target.value)}
-          />
+          <Input placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
           {user ? (
             <Button onClick={loadRazorpay}>PAY NOW</Button>
           ) : (
