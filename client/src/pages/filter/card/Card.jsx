@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import { Box, Typography, Divider } from "@mui/material";
 import { Img } from "../style";
 
-const Card = ({ res }) => {
-  const menu = res.menus;
+const Card = ({ rest, filterData }) => {
+  const res = rest;
+  console.log(res);
+  const menu = res?.menus;
   let cost = menu?.map((item) => item?.cost);
-  cost = cost.reduce((a, b) => a + b, 0) / cost.length;
+  cost = cost?.reduce((a, b) => a + b, 0) / cost?.length;
 
   return (
     <>

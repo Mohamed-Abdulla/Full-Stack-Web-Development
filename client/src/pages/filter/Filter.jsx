@@ -14,6 +14,22 @@ const Filter = () => {
   const city = searchParams.get("city");
   const mealtype = searchParams.get("mealtype");
   const [data, setData] = useState();
+  const [filterData, setFilterData] = useState([]);
+  const locality = data?.map((data) => data.locality);
+
+  const [filters, setFilters] = useState({
+    locality: locality,
+    cusine: [],
+    priceRange: "",
+    sort: "",
+  });
+
+  const handleFilters = (e) => {
+    setFilters({
+      ...filters,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   useEffect(() => {
     const res = async () => {
@@ -32,7 +48,6 @@ const Filter = () => {
     res();
   }, [city, mealtype]);
 
-  const [filter, setFilter] = useState({});
   return (
     <Box>
       <Navbar />
@@ -43,13 +58,19 @@ const Filter = () => {
           </Typography>
           <Box display="flex" gap={5}>
             <StyledFilter>
-              <FilterBox setFilter={setFilter} city={city} mealtype={mealtype} data={data} />
+              <FilterBox
+                setFilterData={setFilterData}
+                data={data}
+                filters={filters}
+                setFilters={setFilters}
+                handleFilters={handleFilters}
+              />
             </StyledFilter>
             <Box>
               {data &&
                 data?.map((res) => (
                   <StyledCard>
-                    <Card res={res} filter={filter} city={city} mealtype={mealtype} />
+                    <Card rest={res} filterData={filterData} />
                   </StyledCard>
                 ))}
             </Box>

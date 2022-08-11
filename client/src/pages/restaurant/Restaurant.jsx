@@ -22,7 +22,6 @@ const Restaurant = () => {
   return (
     <Box sx={{ backgroundColor: "whitesmoke" }}>
       <Navbar />
-
       <Grow in>
         <Container sx={{ padding: 6 }}>
           <Box position="relative">

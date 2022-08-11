@@ -19,7 +19,7 @@ const Navbar = () => {
   };
 
   return (
-    <StyledAppBar position="static">
+    <StyledAppBar position="sticky" top="10">
       <Container sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
           <Logo src={logo} alt="" />

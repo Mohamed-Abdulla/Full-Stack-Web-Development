@@ -1,4 +1,5 @@
 import {
+  Box,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -11,45 +12,25 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const FilterBox = ({ setFilter, data }) => {
-  const [range, setRange] = useState("");
-  const [location, setLocation] = useState([]);
+const FilterBox = ({ setFilterData, data, filters, handleFilters }) => {
   const locality = data?.map((data) => data.locality);
-  const [filters, setFilters] = useState({
-    locality: "",
-    cusine: [],
-    priceRange: 0,
-    sort: 0,
-  });
-
-  const handleFilters = (e) => {
-    const value = e.target.value;
-    setFilters({
-      ...filters,
-      [e.target.name]: value,
-    });
-
-    // setIsChecked(!isChecked);
-  };
 
   useEffect(() => {
     const data = async () => {
       try {
-        const res = await axios.get("/res/filter", filters);
-        console.log(res);
+        const res = await axios.post("/res/filter", filters);
+        setFilterData(res.data);
       } catch (error) {
         console.log(error);
       }
     };
     data();
   }, [filters]);
-  console.log(filters);
 
   return (
-    <>
+    <Box position="sticky" top="104px">
       <Typography variant="h6" color="#192F60">
         Filters
       </Typography>
@@ -134,7 +115,7 @@ const FilterBox = ({ setFilter, data }) => {
           <FormControlLabel value="1" control={<Radio size="small" />} label="Price high to low" />
         </RadioGroup>
       </FormControl>
-    </>
+    </Box>
   );
 };
 

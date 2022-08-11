@@ -32,6 +32,6 @@ router.get("/find/:id", getResbyId);
 router.get("/find/menu/query", getResByMenu);
 
 //~filters
-router.get("/filter", filterRes);
+router.post("/filter", filterRes);
 
 export default router;
