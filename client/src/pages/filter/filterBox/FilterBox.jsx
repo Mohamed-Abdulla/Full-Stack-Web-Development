@@ -14,19 +14,19 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const FilterBox = ({ setFilterData, data, filters, handleFilters }) => {
+const FilterBox = ({ setData, data, filters, handleFilters, handleCostRange, handleCusineChange }) => {
   const locality = data?.map((data) => data.locality);
 
   useEffect(() => {
-    const data = async () => {
+    const res = async () => {
       try {
         const res = await axios.post("/res/filter", filters);
-        setFilterData(res.data);
+        setData(res.data);
       } catch (error) {
         console.log(error);
       }
     };
-    data();
+    res();
   }, [filters]);
 
   return (
@@ -43,9 +43,12 @@ const FilterBox = ({ setFilterData, data, filters, handleFilters }) => {
           name="locality"
           label="location"
           onChange={handleFilters}
+          defaultValue=""
         >
-          {locality?.map((loc) => (
-            <MenuItem value={loc}>{loc}</MenuItem>
+          {locality?.map((loc, index) => (
+            <MenuItem key={index} value={loc || ""}>
+              {loc}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
@@ -54,31 +57,31 @@ const FilterBox = ({ setFilterData, data, filters, handleFilters }) => {
       </Typography>
       <FormGroup>
         <FormControlLabel
-          control={<Checkbox defaultChecked size="small" onChange={handleFilters} />}
+          control={<Checkbox defaultChecked size="small" onChange={(e) => handleCusineChange(e, "North Indian")} />}
           label="North Indian"
           value="North Indian"
           name="cusine"
         />
         <FormControlLabel
-          control={<Checkbox size="small" onChange={handleFilters} />}
+          control={<Checkbox size="small" onChange={(e) => handleCusineChange(e, "South Indian")} />}
           label="South Indian"
           value="South Indian"
           name="cusine"
         />
         <FormControlLabel
-          control={<Checkbox size="small" onChange={handleFilters} />}
+          control={<Checkbox size="small" onChange={(e) => handleCusineChange(e, "Chinese")} />}
           label="Chinese"
           value="Chinese"
           name="cusine"
         />
         <FormControlLabel
-          control={<Checkbox size="small" onChange={handleFilters} />}
+          control={<Checkbox size="small" onChange={(e) => handleCusineChange(e, "Fast Food")} />}
           label="Fast Food"
           value="Fast Food"
           name="cusine"
         />
         <FormControlLabel
-          control={<Checkbox size="small" onChange={handleFilters} />}
+          control={<Checkbox size="small" onChange={(e) => handleCusineChange(e, "Street Food")} />}
           label="Street Food"
           value="Street Food"
           name="cusine"
@@ -88,17 +91,52 @@ const FilterBox = ({ setFilterData, data, filters, handleFilters }) => {
         Cost For Two
       </Typography>
       <FormControl>
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue="female"
-          name="priceRange"
-          onChange={handleFilters}
-        >
-          <FormControlLabel value="0" control={<Radio size="small" />} label="Less than ` 500" />
-          <FormControlLabel value="1" control={<Radio size="small" />} label="500 to ` 1000" />
-          <FormControlLabel value="2" control={<Radio size="small" />} label="1000 to ` 1500" />
-          <FormControlLabel value="3" control={<Radio size="small" />} label="1500 to ` 2000" />
-          <FormControlLabel value="4" control={<Radio size="small" />} label="2000+" />
+        <RadioGroup aria-labelledby="demo-radio-buttons-group-label" defaultValue="female" name="priceRange">
+          <FormControlLabel
+            name="cost"
+            value="0"
+            control={<Radio size="small" />}
+            label="Less than ` 500"
+            onChange={() => {
+              handleCostRange(0, 500);
+            }}
+          />
+          <FormControlLabel
+            name="cost"
+            value="1"
+            control={<Radio size="small" />}
+            label="500 to ` 1000"
+            onChange={() => {
+              handleCostRange(500, 1000);
+            }}
+          />
+          <FormControlLabel
+            name="cost"
+            value="2"
+            control={<Radio size="small" />}
+            label="1000 to ` 1500"
+            onChange={() => {
+              handleCostRange(1000, 1500);
+            }}
+          />
+          <FormControlLabel
+            name="cost"
+            value="3"
+            control={<Radio size="small" />}
+            label="1500 to ` 2000"
+            onChange={() => {
+              handleCostRange(1500, 2000);
+            }}
+          />
+          <FormControlLabel
+            name="cost"
+            value="4"
+            control={<Radio size="small" />}
+            label="2000+"
+            onChange={() => {
+              handleCostRange(2000, 500000);
+            }}
+          />
         </RadioGroup>
       </FormControl>
       <Typography variant="body1" fontWeight="600" color="#192F60">
@@ -111,8 +149,8 @@ const FilterBox = ({ setFilterData, data, filters, handleFilters }) => {
           name="sort"
           onChange={handleFilters}
         >
-          <FormControlLabel value="0" control={<Radio size="small" />} label="Price low to high" />
-          <FormControlLabel value="1" control={<Radio size="small" />} label="Price high to low" />
+          <FormControlLabel value="1" control={<Radio size="small" />} label="Price low to high" />
+          <FormControlLabel value="-1" control={<Radio size="small" />} label="Price high to low" />
         </RadioGroup>
       </FormControl>
     </Box>

@@ -58,8 +58,8 @@ const Checkout = ({ open, handleClose, data }) => {
             >
               <Grid container spacing={2}>
                 <Grid item>
-                  {menu?.map((item) => (
-                    <Dish item={item} handleQuantity={handleQuantity} quantity={quantity} />
+                  {menu?.map((item, index) => (
+                    <Dish item={item} key={index} handleQuantity={handleQuantity} quantity={quantity} />
                   ))}
                   <Typography variant="h6">Sub Total : {menu?.cost * quantity}</Typography>
                   <Box display="flex" justifyContent="flex-end" marginTop={1} fontWeight="500">

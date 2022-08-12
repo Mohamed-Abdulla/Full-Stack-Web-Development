@@ -87,29 +87,40 @@ export const getResByMenu = async (req, res, next) => {
 };
 
 export const filterRes = async (req, res, next) => {
-  const { locality, priceRange, sort } = req.body;
+  const { mealtype, locality, cusines, hcost, lcost, sort } = req.body;
   let filters = {};
-
+  if (mealtype) {
+    filters["menus.meal_type"] = mealtype;
+  }
   if (locality) {
     filters.locality = locality;
   }
-  // if (priceRange) {
-  //   filters.menus.cost = { $gte: priceRange[0], $lte: priceRange[1] };
-  // }
-  // if (sort) {
-  //   if (sort === 0) {
-  //     filters.menus.cost = {
-  //       $lte: cost,
-  //     };
-  //   } else {
-  //     filters.menus.cost = {
-  //       $gte: cost,
-  //     };
-  //   }
-  // }
+
+  if (cusines) {
+    filters["menus.cusine"] = {
+      $in: cusines,
+    };
+  }
+  if (hcost) {
+    filters["menus.cost"] = {
+      $lt: hcost,
+    };
+  }
+  if (lcost) {
+    filters["menus.cost"] = {
+      $gt: lcost,
+    };
+  }
+  if (lcost && hcost) {
+    filters["menus.cost"] = {
+      $lt: hcost,
+      $gt: lcost,
+    };
+  }
+  console.log(filters);
+
   try {
-    const result = await Restaurant.find(filters);
-    // .sort({ "menus.cost": sort });
+    const result = await Restaurant.find(filters).sort({ "menus.cost": sort });
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({

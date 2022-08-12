@@ -114,8 +114,12 @@ const Header = () => {
             />
             {cityquery && (
               <SearchLocation>
-                {citydata.map((item) => (
-                  <Link to={`filter?city=${item.city_name}`} style={{ textDecoration: "none", color: "inherit" }}>
+                {citydata.map((item, index) => (
+                  <Link
+                    to={`filter?city=${item.city_name}`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                    key={index}
+                  >
                     <Typography
                       variant="body1"
                       fontWeight="500"
@@ -154,8 +158,8 @@ const Header = () => {
             />
             {query && (
               <SearchContainer>
-                {data.map((item) => (
-                  <Link to={`/res/${item._id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                {data.map((item, index) => (
+                  <Link to={`/res/${item._id}`} style={{ textDecoration: "none", color: "inherit" }} key={index}>
                     <Box
                       display="flex"
                       gap={3}

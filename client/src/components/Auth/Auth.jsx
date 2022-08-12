@@ -1,4 +1,4 @@
-import { Button, Paper, Grid, Typography, Container, Modal, Fade, Backdrop } from "@mui/material";
+import { Button, Paper, Grid, Typography, Container, Modal, Fade, Backdrop, Box } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
 import axios from "axios";
 
@@ -119,7 +119,7 @@ const Auth = ({ open, handleClose }) => {
               <StyledSubmitButton type="submit" fullWidth variant="contained" color="error">
                 {isSignup ? "Sign Up" : "Sign In"}
               </StyledSubmitButton>
-              <Button type="submit" fullWidth>
+              <Box display="flex" justifyContent="center">
                 <GoogleLogin
                   clientId={client_id}
                   buttonText="Continue with Google"
@@ -129,7 +129,7 @@ const Auth = ({ open, handleClose }) => {
                   cookiePolicy={"single_host_origin"}
                   isSignedIn={true}
                 />
-              </Button>
+              </Box>
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Button sx={{ marginTop: 1 }} onClick={switchMode}>

@@ -2,9 +2,7 @@ import { Link } from "react-router-dom";
 import { Box, Typography, Divider } from "@mui/material";
 import { Img } from "../style";
 
-const Card = ({ rest, filterData }) => {
-  const res = rest;
-  console.log(res);
+const Card = ({ res }) => {
   const menu = res?.menus;
   let cost = menu?.map((item) => item?.cost);
   cost = cost?.reduce((a, b) => a + b, 0) / cost?.length;
@@ -34,8 +32,8 @@ const Card = ({ rest, filterData }) => {
                 CUISINES:
               </Typography>
               {menu?.map((item) => (
-                <Typography variant="body1" fontWeight="500" color="#192F60">
-                  {item.meal_type}
+                <Typography variant="body1" fontWeight="500" color="#192F60" key={item._id}>
+                  {item.cusine}
                 </Typography>
               ))}
             </Box>

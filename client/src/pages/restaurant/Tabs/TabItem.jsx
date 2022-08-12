@@ -20,8 +20,8 @@ const TabItem = ({ id }) => {
           <h4>About this place</h4>
           <div className="cuisine">
             <h5>Cuisine</h5>
-            {menu?.map((item) => (
-              <span>{item.cusine} | </span>
+            {menu?.map((item, index) => (
+              <span key={index}>{item.cusine} | </span>
             ))}
           </div>
           <div className="averagecost">

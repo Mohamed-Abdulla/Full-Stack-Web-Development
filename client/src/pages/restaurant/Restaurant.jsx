@@ -35,10 +35,10 @@ const Restaurant = () => {
 
             <Button
               variant="contained"
-              color="error"
-              sx={{ position: "absolute", bottom: 40, right: 60, backgroundColor: "whitesmoke", color: "black" }}
+              color="inherit"
+              sx={{ position: "absolute", bottom: 40, right: 45, backgroundColor: "whitesmoke", color: "black" }}
             >
-              Click to see Image Gallery
+              Click ⬅️➡️ to see Image Gallery
             </Button>
           </Box>
 

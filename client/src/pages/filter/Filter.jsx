@@ -14,21 +14,40 @@ const Filter = () => {
   const city = searchParams.get("city");
   const mealtype = searchParams.get("mealtype");
   const [data, setData] = useState();
-  const [filterData, setFilterData] = useState([]);
   const locality = data?.map((data) => data.locality);
 
   const [filters, setFilters] = useState({
+    mealtype: mealtype ? mealtype : "",
     locality: locality,
-    cusine: [],
-    priceRange: "",
-    sort: "",
+    cusines: ["North Indian"],
+    hcost: undefined,
+    lcost: undefined,
+    sort: 1,
   });
 
   const handleFilters = (e) => {
-    setFilters({
-      ...filters,
-      [e.target.name]: e.target.value,
-    });
+    setFilters((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleCostRange = (lCost, hCost) => {
+    setFilters((prev) => ({ ...prev, lcost: lCost, hcost: hCost }));
+  };
+
+  const handleCusineChange = (e, cusine) => {
+    let { cusines } = filters;
+    const index = cusines.indexOf(cusine);
+    // console.log(index);
+    // console.log("cusines", cusines);
+    console.log("cuisine", cusine);
+
+    if (index < 0 && e.target.checked) {
+      cusines.push(cusine);
+      // console.log("length of cusines", cusines.length);
+    } else {
+      cusines.splice(index, 1);
+      // console.log(cusines);
+    }
+    setFilters((prev) => ({ ...prev, cusines: cusines }));
   };
 
   useEffect(() => {
@@ -48,6 +67,9 @@ const Filter = () => {
     res();
   }, [city, mealtype]);
 
+  console.log(filters);
+  console.log(data);
+
   return (
     <Box>
       <Navbar />
@@ -59,20 +81,26 @@ const Filter = () => {
           <Box display="flex" gap={5}>
             <StyledFilter>
               <FilterBox
-                setFilterData={setFilterData}
+                setData={setData}
                 data={data}
                 filters={filters}
-                setFilters={setFilters}
                 handleFilters={handleFilters}
+                handleCostRange={handleCostRange}
+                handleCusineChange={handleCusineChange}
               />
             </StyledFilter>
             <Box>
-              {data &&
+              {data?.length > 0 ? (
                 data?.map((res) => (
-                  <StyledCard>
-                    <Card rest={res} filterData={filterData} />
+                  <StyledCard key={res._id}>
+                    <Card res={res} />
                   </StyledCard>
-                ))}
+                ))
+              ) : (
+                <Typography variant="h4" fontWeight="600" textAlign="center" color="#192F60">
+                  No data found..
+                </Typography>
+              )}
             </Box>
           </Box>
           {/* <Box display="flex" alignItems="center" justifyContent="center" my={2}>
