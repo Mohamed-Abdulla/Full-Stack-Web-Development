@@ -3,16 +3,21 @@ import Conversations from "../components/Chat/Conversations";
 import Message from "../components/Chat/Message";
 import Topbar from "../components/Topbar";
 import SearchIcon from "@mui/icons-material/Search";
+import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import ChatOnline from "../components/Chat/ChatOnline";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { Link } from "react-router-dom";
+import Picker from "emoji-picker-react";
+import { mobile } from "../utils/responsive";
 
 const Container = styled.div`
-  height: calc(100vh - 70px);
+  height: calc(100vh - 50px);
   display: flex;
+  background-color: ${({ theme }) => theme.bg};
+  color: ${({ theme }) => theme.text};
 `;
 const Chatmenu = styled.div`
   flex: 3.5;
@@ -30,9 +35,11 @@ const MenuInput = styled.input`
   :focus {
     outline: none;
   }
+  background-color: ${({ theme }) => theme.bgLighter};
 `;
 const ChatBox = styled.div`
   flex: 5.5;
+  ${mobile({ flex: 9 })};
 `;
 const BoxWrapper = styled.div`
   padding: 10px;
@@ -62,11 +69,13 @@ const BoxBottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 `;
 const MessageInput = styled.textarea`
   width: 80%;
   height: 90px;
   padding: 10px;
+  background-color: ${({ theme }) => theme.bgLighter};
 `;
 const Send = styled.button`
   width: 70px;
@@ -81,6 +90,7 @@ const Send = styled.button`
 
 const ChatOnlineContainer = styled.div`
   flex: 3;
+  ${mobile({ display: "none" })};
 `;
 const OnlineWrapper = styled.div`
   padding: 10px;
@@ -119,7 +129,7 @@ const User = styled.div`
   margin-bottom: 12px;
 
   :hover {
-    background-color: whitesmoke;
+    background-color: ${({ theme }) => theme.bgLighter};
     border-radius: 10px;
   }
 `;
@@ -145,8 +155,15 @@ const HeaderImg = styled.img`
 `;
 const HeaderText = styled.span`
   font-weight: 500;
-  color: black;
+  color: ${({ theme }) => theme.text};
 `;
+
+const Emoji = styled.div`
+  position: absolute;
+  bottom: 91px;
+  right: 10px;
+`;
+
 const Messenger = () => {
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
@@ -161,6 +178,16 @@ const Messenger = () => {
   const socket = useRef();
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friendDetail, setFriendDetail] = useState([]);
+  const [showEmoji, setShowEmoji] = useState(false);
+
+  const onEmojiClick = (emojiObject) => {
+    setNewMessage((prevInput) => prevInput + emojiObject.emoji);
+  };
+
+  const openEmoji = () => {
+    setShowEmoji(!showEmoji);
+    scrollRef.current.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     const friendId = currentChat?.members.filter((i) => i !== user._id);
@@ -197,9 +224,7 @@ const Messenger = () => {
   useEffect(() => {
     socket.current.emit("addUser", user._id);
     socket.current.on("getUsers", (users) => {
-      setOnlineUsers(
-        user.following.filter((f) => users.some((u) => u.userId === f))
-      );
+      setOnlineUsers(user.following.filter((f) => users.some((u) => u.userId === f)));
     });
   }, [user]);
 
@@ -235,9 +260,7 @@ const Messenger = () => {
       conversationId: currentChat._id,
     };
 
-    const receiverId = currentChat.members.find(
-      (member) => member !== user._id
-    );
+    const receiverId = currentChat.members.find((member) => member !== user._id);
 
     socket.current.emit("sendMessage", {
       senderId: user._id,
@@ -249,6 +272,7 @@ const Messenger = () => {
       const res = await axios.post("/messages", message);
       setMessages([...messages, res.data]);
       setNewMessage("");
+      setShowEmoji(false);
     } catch (error) {
       console.log(error);
     }
@@ -291,23 +315,14 @@ const Messenger = () => {
         <Chatmenu>
           <MenuWrapper>
             <SearchIcon style={{ color: "gray" }} />
-            <MenuInput
-              placeholder="Search for friends"
-              onChange={handleSearch}
-            />
+            <MenuInput placeholder="Search for friends" onChange={handleSearch} />
             {query && (
               <DataResult>
                 {data.map((user) => (
                   <Link to={"/profile/" + user.username}>
                     {data ? (
                       <User>
-                        <UserImg
-                          src={
-                            user.profilePicture
-                              ? PF + user.profilePicture
-                              : PF + "person/noAvatar.png"
-                          }
-                        />
+                        <UserImg src={user.profilePicture ? PF + user.profilePicture : PF + "person/noAvatar.png"} />
                         <UserName key={user._id}>{user.username}</UserName>
                       </User>
                     ) : (
@@ -319,11 +334,7 @@ const Messenger = () => {
             )}
             {conversations.map((c) => (
               <div onClick={() => setCurrentChat(c)}>
-                <Conversations
-                  key={c._id}
-                  conversation={c}
-                  currentUser={user}
-                />
+                <Conversations key={c._id} conversation={c} currentUser={user} />
               </div>
             ))}
           </MenuWrapper>
@@ -332,11 +343,7 @@ const Messenger = () => {
           <BoxWrapper>
             <Header>
               <HeaderImg
-                src={
-                  friendDetail.profilePicture
-                    ? PF + friendDetail.profilePicture
-                    : PF + "person/noAvatar.png"
-                }
+                src={friendDetail.profilePicture ? PF + friendDetail.profilePicture : PF + "person/noAvatar.png"}
               />
               <HeaderText>{friendDetail.username}</HeaderText>
             </Header>
@@ -345,11 +352,7 @@ const Messenger = () => {
                 <BoxTop>
                   {messages.map((m) => (
                     <div ref={scrollRef}>
-                      <Message
-                        ownMessage={m.sender === user._id}
-                        message={m}
-                        currentUser={user}
-                      />
+                      <Message ownMessage={m.sender === user._id} message={m} currentUser={user} />
                     </div>
                   ))}
                 </BoxTop>
@@ -359,14 +362,14 @@ const Messenger = () => {
                     onChange={(e) => setNewMessage(e.target.value)}
                     value={newMessage}
                   ></MessageInput>
+                  <Emoji>{showEmoji && <Picker onEmojiClick={onEmojiClick} pickerStyle={{ width: "80%" }} />}</Emoji>
+                  <InsertEmoticonIcon style={{ cursor: "pointer", opacity: "0.7" }} onClick={openEmoji} />
                   <Send onClick={handleSubmit}>Send</Send>
                 </BoxBottom>
               </>
             ) : (
               <>
-                <NoConversation>
-                  Open a conversation to start a chat
-                </NoConversation>
+                <NoConversation>Open a conversation to start a chat</NoConversation>
                 <BoxTop>
                   {/* <div ref={scrollRef}>
                     <Message />
@@ -386,11 +389,7 @@ const Messenger = () => {
         </ChatBox>
         <ChatOnlineContainer>
           <OnlineWrapper>
-            <ChatOnline
-              onlineUsers={onlineUsers}
-              currentId={user._id}
-              setCurrentChat={setCurrentChat}
-            />
+            <ChatOnline onlineUsers={onlineUsers} currentId={user._id} setCurrentChat={setCurrentChat} />
           </OnlineWrapper>
         </ChatOnlineContainer>
       </Container>

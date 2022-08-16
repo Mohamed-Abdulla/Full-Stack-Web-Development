@@ -2,7 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const ChatOnlineContainer = styled.div``;
+const ChatOnlineContainer = styled.div`
+  background-color: ${({ theme }) => theme.bg};
+  color: ${({ theme }) => theme.text};
+`;
 const OnlineFriend = styled.div`
   display: flex;
   align-items: center;
@@ -40,9 +43,7 @@ const ChatOnline = ({ onlineUsers, currentId, setCurrentChat }) => {
 
   const handleClick = async (user) => {
     try {
-      const res = await axios.get(
-        `/conversations/find/${currentId}/${user._id}`
-      );
+      const res = await axios.get(`/conversations/find/${currentId}/${user._id}`);
       if (res) {
         setCurrentChat(res.data);
       } else {
@@ -74,13 +75,7 @@ const ChatOnline = ({ onlineUsers, currentId, setCurrentChat }) => {
       {onlineFriends.map((o) => (
         <OnlineFriend onClick={() => handleClick(o)}>
           <ImgContainer>
-            <Img
-              src={
-                o?.profilePicture
-                  ? PF + o.profilePicture
-                  : PF + "person/noAvatar.png"
-              }
-            />
+            <Img src={o?.profilePicture ? PF + o.profilePicture : PF + "person/noAvatar.png"} />
 
             <OnlineBadge></OnlineBadge>
           </ImgContainer>

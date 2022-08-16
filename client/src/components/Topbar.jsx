@@ -13,6 +13,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import axios from "axios";
 import Logout from "../Modals/Logout";
 import { useEffect } from "react";
+import { mobile } from "../utils/responsive";
 
 const TopbarContainer = styled.div`
   z-index: 1;
@@ -23,19 +24,23 @@ const TopbarContainer = styled.div`
   align-items: center;
   position: sticky;
   top: 0;
+  ${mobile({ padding: "0 10px" })}
 `;
 const TopbarLeft = styled.div`
   flex: 3;
+  ${mobile({ flex: 2.2 })}
 `;
 const Logo = styled.span`
   font-size: 24px;
   margin-left: 20px;
-  font-weight: bold;
+  font-weight: 600;
   color: white;
   cursor: pointer;
+  ${mobile({ fontSize: "20px", marginLeft: "0px" })}
 `;
 const TopbarCenter = styled.div`
   flex: 5;
+  ${mobile({ flex: 4 })}
   display: flex;
   flex-direction: column;
 `;
@@ -99,6 +104,7 @@ const UserImg = styled.img`
 `;
 const TopbarRight = styled.div`
   flex: 4;
+  ${mobile({ flex: 4.5 })}
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -107,6 +113,7 @@ const TopbarRight = styled.div`
 const Links = styled.div``;
 const ILink = styled.span`
   margin-right: 20px;
+  ${mobile({ marginRight: "10px" })}
   font-size: 14px;
   cursor: pointer;
   :hover {
@@ -120,6 +127,9 @@ const IconItem = styled.div`
   margin-right: 15px;
   cursor: pointer;
   position: relative;
+  ${mobile({
+    display: (props) => props.hide === "true" && "none",
+  })}
 `;
 const IconBadge = styled.span`
   width: 15px;
@@ -185,17 +195,14 @@ const Topbar = ({ darkMode, setDarkMode }) => {
     <TopbarContainer>
       <TopbarLeft>
         <Link to="/">
-          <Logo>Social World 🌍</Logo>
+          <Logo>Social 🌍</Logo>
         </Link>
       </TopbarLeft>
       <TopbarCenter>
         <Searchbar>
           <SearchIcon style={{ fontSize: 20, marginLeft: 10 }} />
 
-          <Input
-            placeholder="Search for friend, post or video"
-            onChange={handleSearch}
-          />
+          <Input placeholder="Search for friend, post or video" onChange={handleSearch} />
         </Searchbar>
         {query && (
           <DataResult>
@@ -203,13 +210,7 @@ const Topbar = ({ darkMode, setDarkMode }) => {
               <Link to={"/profile/" + user.username}>
                 {data ? (
                   <User>
-                    <UserImg
-                      src={
-                        user.profilePicture
-                          ? PF + user.profilePicture
-                          : PF + "person/noAvatar.png"
-                      }
-                    />
+                    <UserImg src={user.profilePicture ? PF + user.profilePicture : PF + "person/noAvatar.png"} />
                     <UserName key={user._id}>{user.username}</UserName>
                   </User>
                 ) : (
@@ -232,7 +233,7 @@ const Topbar = ({ darkMode, setDarkMode }) => {
           </ILink>
         </Links>
         <Icons>
-          <IconItem>
+          <IconItem hide="true">
             <PersonIcon />
             <IconBadge>1</IconBadge>
           </IconItem>
@@ -242,27 +243,17 @@ const Topbar = ({ darkMode, setDarkMode }) => {
               <IconBadge>2</IconBadge>
             </IconItem>
           </Link>
-          <IconItem>
+          <IconItem hide="true">
             <NotificationsIcon />
             <IconBadge>2</IconBadge>
           </IconItem>
           <IconItem onClick={handleShow}>
             <LogoutIcon />
           </IconItem>
-          <Logout
-            show={show}
-            handleClose={handleClose}
-            handleLogout={handleLogout}
-          />
+          <Logout show={show} handleClose={handleClose} handleLogout={handleLogout} />
         </Icons>
         <Link to={`/profile/${user.username}`}>
-          <ProfilePic
-            src={
-              image?.profilePicture
-                ? PF + image.profilePicture
-                : PF + "person/noAvatar.png"
-            }
-          />
+          <ProfilePic src={image?.profilePicture ? PF + image.profilePicture : PF + "person/noAvatar.png"} />
         </Link>
       </TopbarRight>
     </TopbarContainer>

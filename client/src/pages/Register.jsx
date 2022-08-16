@@ -84,9 +84,9 @@ const RegisterButton = styled.button`
   cursor: pointer;
   font-size: 20px;
   font-weight: 500;
-  :hover {
+  /* :hover {
     zoom: 104%;
-  }
+  } */
 `;
 const Div = styled.div`
   display: flex;

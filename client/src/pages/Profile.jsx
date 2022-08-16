@@ -13,9 +13,11 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { update } from "../apiCalls";
+import { mobile } from "../utils/responsive";
 
 const ProfileContainer = styled.div`
   display: flex;
+  flex: 9;
   background-color: ${({ theme }) => theme.bg};
   color: ${({ theme }) => theme.text};
 `;
@@ -24,28 +26,31 @@ const Right = styled.div`
 `;
 const RightTop = styled.div``;
 const ProfileCover = styled.form`
-  height: 450px;
   position: relative;
+  height: 450px;
+  ${mobile({ height: "370px" })};
 `;
 const CoverPic = styled.img`
-  width: 1100px;
+  width: 100%;
   height: 400px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   object-fit: cover !important;
+  ${mobile({ width: "100%", height: "100%" })};
 `;
 
 const EditCover = styled.label`
   position: absolute;
   bottom: 70px;
   right: 33px;
-  /* background-color: #f2f2f2; */
   background-color: ${({ theme }) => theme.bgLighter};
+  opacity: 0.8;
 
   padding: 8px;
   border-radius: 5px;
   font-size: 14px;
   font-weight: 500;
+  ${mobile({ bottom: "85px", right: "10px" })};
 `;
 const ProfilePic = styled.img`
   width: 150px;
@@ -58,18 +63,20 @@ const ProfilePic = styled.img`
   margin: auto;
   top: 300px;
   border: 3px solid white;
+  ${mobile({ top: "200px" })};
 `;
 const EditProfile = styled.label`
   position: absolute;
-  right: 475px;
+  right: 465px;
   bottom: 8px;
-  /* background-color: #f2f2f2; */
   background-color: ${({ theme }) => theme.bgLighter};
+  opacity: 0.8;
 
   padding: 8px;
   border-radius: 50%;
   font-size: 14px;
   font-weight: 500;
+  ${mobile({ bottom: "8px", right: "180px" })};
 `;
 const ProfileInfo = styled.div`
   display: flex;
@@ -201,7 +208,7 @@ const Profile = ({ darkMode, setDarkMode }) => {
                   {coverPic && (
                     <>
                       <CoverUpload type="submit">
-                        <FileUploadIcon />
+                        <FileUploadIcon sx={{ color: "white" }} />
                       </CoverUpload>
 
                       <CancelIcon
@@ -232,13 +239,7 @@ const Profile = ({ darkMode, setDarkMode }) => {
 
                   <Link to={"/FullScreen/profile/" + user.username}>
                     {!profilePic ? (
-                      <ProfilePic
-                        src={
-                          user.profilePicture
-                            ? PF + user.profilePicture
-                            : PF + "person/noAvatar.png"
-                        }
-                      />
+                      <ProfilePic src={user.profilePicture ? PF + user.profilePicture : PF + "person/noAvatar.png"} />
                     ) : (
                       <ProfilePic src={URL.createObjectURL(profilePic)} />
                     )}

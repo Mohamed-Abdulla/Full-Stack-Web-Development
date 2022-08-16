@@ -57,7 +57,7 @@ const Input = styled.input`
   padding-left: 20px;
 
   &:focus {
-    outline: none;
+    outline: teal;
   }
 `;
 const LoginButton = styled.button`
@@ -89,9 +89,9 @@ const RegisterButton = styled.button`
   font-size: 20px;
   font-weight: 500;
   padding: 10px 20px;
-  :hover {
+  /* :hover {
     zoom: 104%;
-  }
+  } */
 `;
 const Div = styled.div`
   display: flex;
@@ -108,47 +108,28 @@ const Login = () => {
   const { user, isFetching, error, dispatch } = useContext(AuthContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(
-      { email: email.current.value, password: password.current.value },
-      dispatch
-    );
+    login({ email: email.current.value, password: password.current.value }, dispatch);
   };
   return (
     <Container>
       <Wrapper>
         <Left>
           <Logo>Social World 🌍</Logo>
-          <Desc>
-            Connect with friends and the world around you on Social World 🌍 .
-          </Desc>
+          <Desc>Connect with friends and the world around you on Social World 🌍 .</Desc>
         </Left>
         <Right>
           <Box onSubmit={handleSubmit}>
             <Input placeholder="Email" type="email" required ref={email} />
-            <Input
-              placeholder="password"
-              type="password"
-              required
-              minLength="6"
-              ref={password}
-            />
+            <Input placeholder="password" type="password" required minLength="6" ref={password} />
             {error && <Error>Email or Password is incorrect !</Error>}
             <LoginButton type="submit" disabled={isFetching}>
-              {isFetching ? (
-                <CircularProgress style={{ color: "white" }} size={20} />
-              ) : (
-                "Log In"
-              )}
+              {isFetching ? <CircularProgress style={{ color: "white" }} size={20} /> : "Log In"}
             </LoginButton>
             <Forgot>Forgot Password?</Forgot>
             <Div>
               <Link to="/register">
                 <RegisterButton>
-                  {isFetching ? (
-                    <CircularProgress style={{ color: "white" }} size={20} />
-                  ) : (
-                    "Create a New Account"
-                  )}
+                  {isFetching ? <CircularProgress style={{ color: "white" }} size={20} /> : "Create a New Account"}
                 </RegisterButton>
               </Link>
             </Div>

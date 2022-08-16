@@ -11,6 +11,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import EditDetails from "../Modals/EditDetails";
 import { io } from "socket.io-client";
+import { mobile } from "../utils/responsive";
 
 const Container = styled.div`
   flex: 3.5;
@@ -28,6 +29,7 @@ const Container = styled.div`
   ::-webkit-scrollbar-thumb {
     background-color: rgb(179, 179, 179);
   }
+  ${mobile({ display: "none" })}
 `;
 
 const Wrapper = styled.div`
@@ -130,9 +132,7 @@ const Rightbar = ({ user }) => {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = useState([]);
   const { user: currentUser, dispatch } = useContext(AuthContext);
-  const [followed, setFollowed] = useState(
-    currentUser?.following.includes(user?._id)
-  );
+  const [followed, setFollowed] = useState(currentUser?.following?.includes(user?._id));
   // const [onlineUsers, setOnlineUsers] = useState([]);
   // const [currentChat, setCurrentChat] = useState(null);
   // const socket = useRef();
@@ -188,7 +188,7 @@ const Rightbar = ({ user }) => {
   };
 
   useEffect(() => {
-    if (currentUser.following.includes(user?._id)) {
+    if (currentUser.following?.includes(user?._id)) {
       setFollowed(true);
     }
   }, [user]);
@@ -268,18 +268,12 @@ const Rightbar = ({ user }) => {
           <InfoItem>
             <Infokey>Relationship:</Infokey>
             <InfokeyValue>
-              {user.relationship === 1
-                ? "Single"
-                : user.relationship === 2
-                ? "Married"
-                : "-"}
+              {user.relationship === 1 ? "Single" : user.relationship === 2 ? "Married" : "-"}
             </InfokeyValue>
           </InfoItem>
           <InfoItem>
             <Infokey>Joined on :</Infokey>
-            <InfokeyValue style={{ marginRight: "10px" }}>
-              {monthNames[JoinedMonth - 1]}
-            </InfokeyValue>
+            <InfokeyValue style={{ marginRight: "10px" }}>{monthNames[JoinedMonth - 1]}</InfokeyValue>
             <InfokeyValue>{JoinedYear}</InfokeyValue>
           </InfoItem>
         </RightbarInfo>
@@ -289,11 +283,7 @@ const Rightbar = ({ user }) => {
             <Link to={"/profile/" + friend.username}>
               <Following>
                 <FollowingImg
-                  src={
-                    friend.profilePicture
-                      ? PF + friend.profilePicture
-                      : PF + "person/noAvatar.png"
-                  }
+                  src={friend.profilePicture ? PF + friend.profilePicture : PF + "person/noAvatar.png"}
                   alt=""
                 />
                 <FollowingName>{friend.username}</FollowingName>

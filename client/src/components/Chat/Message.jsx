@@ -8,6 +8,8 @@ const MessageContainer = styled.div`
   flex-direction: column;
   margin-top: 20px;
   align-items: ${(props) => (props.own ? "flex-end" : "flex-start")};
+  background-color: ${({ theme }) => theme.bg};
+  color: ${({ theme }) => theme.text};
 `;
 const MessageTop = styled.div`
   display: flex;
@@ -52,21 +54,9 @@ const Message = ({ message, ownMessage, currentUser }) => {
     <MessageContainer own={ownMessage}>
       <MessageTop>
         {ownMessage ? (
-          <Img
-            src={
-              currentUser?.profilePicture
-                ? PF + currentUser?.profilePicture
-                : PF + "person/noAvatar.png"
-            }
-          />
+          <Img src={currentUser?.profilePicture ? PF + currentUser?.profilePicture : PF + "person/noAvatar.png"} />
         ) : (
-          <Img
-            src={
-              friendDetail?.profilePicture
-                ? PF + friendDetail?.profilePicture
-                : PF + "person/noAvatar.png"
-            }
-          />
+          <Img src={friendDetail?.profilePicture ? PF + friendDetail?.profilePicture : PF + "person/noAvatar.png"} />
         )}
 
         <MessageText own={ownMessage}>{message.text}</MessageText>

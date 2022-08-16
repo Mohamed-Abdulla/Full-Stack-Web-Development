@@ -14,6 +14,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { mobile } from "../utils/responsive";
 
 const Container = styled.div`
   flex: 3;
@@ -31,6 +32,8 @@ const Container = styled.div`
   }
   position: sticky;
   top: 50px;
+
+  ${mobile({ display: "none" })}
 `;
 
 const Wrapper = styled.div`

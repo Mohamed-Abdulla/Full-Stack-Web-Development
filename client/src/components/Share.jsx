@@ -9,6 +9,7 @@ import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { useEffect } from "react";
+import { mobile } from "../utils/responsive";
 
 const Container = styled.div`
   width: 100%;
@@ -52,11 +53,14 @@ const ShareOptions = styled.div`
   display: flex;
   justify-content: space-evenly;
   margin-left: 20px;
+  ${mobile({ marginLeft: "0px" })}
 `;
 const ShareOption = styled.label`
   display: flex;
   align-items: center;
   margin-right: 15px;
+  ${mobile({ marginRight: "10px" })}
+
   cursor: pointer;
   padding: 10px;
   :hover {
@@ -139,18 +143,9 @@ const Share = () => {
       <Wrapper>
         <Top>
           <Link to={`/profile/${user.username}`}>
-            <ShareProfilePic
-              src={
-                image?.profilePicture
-                  ? PF + image.profilePicture
-                  : PF + "person/noAvatar.png"
-              }
-            />
+            <ShareProfilePic src={image?.profilePicture ? PF + image.profilePicture : PF + "person/noAvatar.png"} />
           </Link>
-          <ShareInput
-            placeholder={"What's on your mind " + user.username + " ?"}
-            ref={desc}
-          />
+          <ShareInput placeholder={"What's on your mind " + user.username + " ?"} ref={desc} />
         </Top>
         <Hr />
         {file && (
@@ -186,10 +181,7 @@ const Share = () => {
               <ShareOptionText>Location</ShareOptionText>
             </ShareOption>
             <ShareOption>
-              <EmojiEmotionsIcon
-                htmlColor="goldenrod"
-                style={{ fontSize: 18 }}
-              />
+              <EmojiEmotionsIcon htmlColor="goldenrod" style={{ fontSize: 18 }} />
               <ShareOptionText>Feeling/Activity</ShareOptionText>
             </ShareOption>
           </ShareOptions>

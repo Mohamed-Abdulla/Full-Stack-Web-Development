@@ -5,9 +5,11 @@ import Share from "./Share";
 // import { Posts } from "../dummydata";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import { mobile } from "../utils/responsive";
 
 const Container = styled.div`
   flex: 5.5;
+  ${mobile({ width: "100%" })}
 `;
 const Wrapper = styled.div`
   padding: 20px;

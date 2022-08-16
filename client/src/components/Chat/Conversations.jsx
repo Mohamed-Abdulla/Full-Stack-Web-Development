@@ -11,6 +11,8 @@ const Conversation = styled.div`
   :hover {
     background-color: whitesmoke;
   }
+  background-color: ${({ theme }) => theme.bg};
+  color: ${({ theme }) => theme.text};
 `;
 const Img = styled.img`
   width: 40px;
@@ -21,6 +23,7 @@ const Img = styled.img`
 `;
 const Name = styled.span`
   font-weight: 500;
+  color: ${({ theme }) => theme.text};
 `;
 const Conversations = ({ conversation, currentUser }) => {
   const [user, setUser] = useState(null);
@@ -41,13 +44,7 @@ const Conversations = ({ conversation, currentUser }) => {
   }, [currentUser, conversation]);
   return (
     <Conversation>
-      <Img
-        src={
-          user?.profilePicture
-            ? PF + user?.profilePicture
-            : PF + "person/noAvatar.png"
-        }
-      />
+      <Img src={user?.profilePicture ? PF + user?.profilePicture : PF + "person/noAvatar.png"} />
       <Name>{user?.username}</Name>
     </Conversation>
   );
