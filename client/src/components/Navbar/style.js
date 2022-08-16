@@ -6,7 +6,7 @@ export const StyledAppBar = styled(AppBar)(({ theme }) => ({
   flexDirection: "row",
   justifyContent: "space-between",
   alignItems: "center",
-  padding: "15px 40px",
+  padding: "15px 10px",
   backgroundColor: red[600],
 }));
 

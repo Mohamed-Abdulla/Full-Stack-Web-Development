@@ -31,8 +31,19 @@ const Auth = ({ open, handleClose }) => {
   const onFailure = (response) => {
     console.log(response);
   };
-  const onSuccess = (response) => {
-    console.log(response);
+  const onSuccess = async (res) => {
+    const credentials = res?.profileObj;
+    dispatch({ type: "LOGIN_START" });
+
+    try {
+      const res = await axios.post("/auth/google", credentials);
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+      handleClose(true);
+    } catch (err) {
+      console.log(err);
+      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
+    }
+    console.log(res);
   };
 
   const handleSubmit = async (e) => {
@@ -127,7 +138,7 @@ const Auth = ({ open, handleClose }) => {
                   onSuccess={onSuccess}
                   onFailure={onFailure}
                   cookiePolicy={"single_host_origin"}
-                  isSignedIn={true}
+                  // isSignedIn={true}
                 />
               </Box>
               <Grid container justifyContent="flex-end">

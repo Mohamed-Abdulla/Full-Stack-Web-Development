@@ -2,9 +2,9 @@ import { Box, Container, Grow, Typography } from "@mui/material";
 import Navbar from "../../components/Navbar/Navbar";
 
 import { StyledCard, StyledFilter } from "./style";
-import Card from "./card/Card";
-import FilterBox from "./filterBox/FilterBox";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import Card from "./components/card/Card";
+import FilterBox from "./components/filterBox/FilterBox";
+import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Pagination from "@mui/material/Pagination";
 import axios from "axios";
@@ -14,16 +14,34 @@ const Filter = () => {
   const city = searchParams.get("city");
   const mealtype = searchParams.get("mealtype");
   const [data, setData] = useState();
-  const locality = data?.map((data) => data.locality);
+  const [filterData, setFilterData] = useState();
 
   const [filters, setFilters] = useState({
     mealtype: mealtype ? mealtype : "",
-    locality: locality,
-    cusines: ["North Indian"],
+    locality: "",
+    cusines: [],
     hcost: undefined,
     lcost: undefined,
     sort: 1,
   });
+  const [loading, setLoading] = useState(false);
+
+  //Now we have filterdata-- need to filter that data from the data
+
+  // useEffect(() => {
+  //   const finaldata = (data, filterData) => {
+  //     let res = [];
+  //     res = data?.filter((el) => {
+  //       return filterData?.find((element) => {
+  //         return element._id === el._id;
+  //       });
+  //     });
+  //     return setFilteredData(res);
+  //   };
+  //   finaldata(data, filterData);
+  // }, [filterData, data]);
+  const filteredData = filterData ? filterData : data;
+  // console.log(filteredData);
 
   const handleFilters = (e) => {
     setFilters((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -38,7 +56,7 @@ const Filter = () => {
     const index = cusines.indexOf(cusine);
     // console.log(index);
     // console.log("cusines", cusines);
-    console.log("cuisine", cusine);
+    // console.log("cuisine", cusine);
 
     if (index < 0 && e.target.checked) {
       cusines.push(cusine);
@@ -64,11 +82,9 @@ const Filter = () => {
         setData(res.data);
       }
     };
+
     res();
   }, [city, mealtype]);
-
-  console.log(filters);
-  console.log(data);
 
   return (
     <Box>
@@ -76,13 +92,13 @@ const Filter = () => {
       <Grow in>
         <Container sx={{ padding: 4 }}>
           <Typography variant="h4" fontWeight="600" color="#192F60" marginBottom={3}>
-            {mealtype ? mealtype : "Restaurants"} in {city ? city : "India"}
+            {mealtype ? mealtype : "Restaurants in"} {city ? city : "available in India"}
           </Typography>
-          <Box display="flex" gap={5}>
+          <Box display="flex" flexDirection={{ xs: "column", sm: "row" }} gap={5}>
             <StyledFilter>
               <FilterBox
-                setData={setData}
                 data={data}
+                setFilterData={setFilterData}
                 filters={filters}
                 handleFilters={handleFilters}
                 handleCostRange={handleCostRange}
@@ -90,15 +106,15 @@ const Filter = () => {
               />
             </StyledFilter>
             <Box>
-              {data?.length > 0 ? (
-                data?.map((res) => (
+              {filteredData?.length > 0 ? (
+                filteredData?.map((res) => (
                   <StyledCard key={res._id}>
-                    <Card res={res} />
+                    <Card res={res} loading={loading} />
                   </StyledCard>
                 ))
               ) : (
-                <Typography variant="h4" fontWeight="600" textAlign="center" color="#192F60">
-                  No data found..
+                <Typography variant="h4" fontWeight="600" color="#192F60" m={10}>
+                  No Restaurants Found ...
                 </Typography>
               )}
             </Box>

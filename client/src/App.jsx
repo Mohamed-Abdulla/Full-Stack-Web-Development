@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Container, getPaginationUtilityClass } from "@mui/material";
+import { Box, Container, getPaginationUtilityClass } from "@mui/material";
 
 import Home from "./pages/Home/Home";
-import Restaurant from "./pages/restaurant/Restaurant";
-import Filter from "./pages/filter/Filter";
+import Restaurant from "./pages/Restaurant/Restaurant";
+import Filter from "./pages/Filter/Filter";
 import { useEffect } from "react";
 import { gapi } from "gapi-script";
 
@@ -23,7 +23,7 @@ function App() {
   // const accessToken=gapi.auth.getToken().access_token;
   return (
     <BrowserRouter>
-      <Container maxWidth="xl">
+      <Box>
         <Routes>
           <Route path="/">
             <Route index element={<Home />} />
@@ -31,7 +31,7 @@ function App() {
             <Route path="filter" index element={<Filter />} />
           </Route>
         </Routes>
-      </Container>
+      </Box>
     </BrowserRouter>
   );
 }

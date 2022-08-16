@@ -1,7 +1,6 @@
 import { Button, Container } from "@mui/material";
-import React from "react";
-import logo from "../../images/zomato_white.png";
-import { LoginButton, Profile, SignUpButton, StyledAvatar, StyledUsername } from "../Header/style";
+import logo from "../../assets/images/zomato_white.png";
+import { Profile, SignUpButton, StyledAvatar, StyledUsername } from "../../pages/Home/components/Header/style";
 import { Logo, StyledAppBar, ButtonContainer } from "./style";
 import Auth from "../Auth/Auth";
 import { useContext, useState } from "react";
@@ -27,7 +26,7 @@ const Navbar = () => {
         <ButtonContainer>
           {user ? (
             <Profile>
-              <StyledAvatar src={user?.picture} alt={user?.name}>
+              <StyledAvatar src={user?.imageUrl} alt={user?.name}>
                 {user?.name.charAt(0)}
               </StyledAvatar>
               <StyledUsername variant="h6" color="white">
@@ -39,9 +38,8 @@ const Navbar = () => {
             </Profile>
           ) : (
             <>
-              {/* <LoginButton onClick={handleOpen}>Login</LoginButton> */}
               <Auth open={open} handleClose={handleClose} />
-              <SignUpButton onClick={handleOpen} variant="outlined" color="warning">
+              <SignUpButton onClick={handleOpen} variant="outlined" color="error">
                 Sign-in / Sign-up
               </SignUpButton>
             </>
