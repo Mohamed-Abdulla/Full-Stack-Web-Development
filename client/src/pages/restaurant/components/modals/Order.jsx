@@ -1,4 +1,5 @@
 import { Backdrop, Box, Button, Fade, Grid, Modal, styled, TextField, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Order = ({ open, handleClose, totalCost }) => {
   const style = {
@@ -13,9 +14,10 @@ const Order = ({ open, handleClose, totalCost }) => {
     p: 4,
   };
 
+  const navigate = useNavigate();
   const handlePay = async () => {
     alert("Order placed successfully");
-    handleClose();
+    navigate("/");
   };
 
   const StyledTextField = styled(TextField)(({ theme }) => ({

@@ -1,12 +1,8 @@
 import { Box, Button, CircularProgress, Container, Grow, Rating, Typography } from "@mui/material";
 import Navbar from "../../components/Navbar/Navbar";
-import breakfast from "../../assets/images/shutterstock_1154073754(1).png";
-import lunch from "../../assets/images/shutterstock_351721442@2x.png";
-import "react-tabs/style/react-tabs.css";
 import Checkout from "./components/modals/Checkout";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import TabItem from "././components/Tabs/TabItem";
+import Carousel from "./components/Carousel/Carousel";
 import { useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 
@@ -30,11 +26,7 @@ const Restaurant = () => {
           <Container sx={{ padding: "32px" }}>
             <Box position="relative">
               <Box>
-                <Carousel showThumbs={false} dynamicHeight={true}>
-                  <img src={breakfast} className="cImg" />
-                  <img src={data?.thumb} className="cImg" />
-                  <img src={lunch} className="cImg" />
-                </Carousel>
+                <Carousel thumb={data?.thumb} />
               </Box>
 
               <Button

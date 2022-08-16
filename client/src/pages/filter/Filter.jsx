@@ -26,22 +26,7 @@ const Filter = () => {
   });
   const [loading, setLoading] = useState(false);
 
-  //Now we have filterdata-- need to filter that data from the data
-
-  // useEffect(() => {
-  //   const finaldata = (data, filterData) => {
-  //     let res = [];
-  //     res = data?.filter((el) => {
-  //       return filterData?.find((element) => {
-  //         return element._id === el._id;
-  //       });
-  //     });
-  //     return setFilteredData(res);
-  //   };
-  //   finaldata(data, filterData);
-  // }, [filterData, data]);
   const filteredData = filterData ? filterData : data;
-  // console.log(filteredData);
 
   const handleFilters = (e) => {
     setFilters((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -54,16 +39,11 @@ const Filter = () => {
   const handleCusineChange = (e, cusine) => {
     let { cusines } = filters;
     const index = cusines.indexOf(cusine);
-    // console.log(index);
-    // console.log("cusines", cusines);
-    // console.log("cuisine", cusine);
 
     if (index < 0 && e.target.checked) {
       cusines.push(cusine);
-      // console.log("length of cusines", cusines.length);
     } else {
       cusines.splice(index, 1);
-      // console.log(cusines);
     }
     setFilters((prev) => ({ ...prev, cusines: cusines }));
   };

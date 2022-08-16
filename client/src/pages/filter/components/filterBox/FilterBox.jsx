@@ -50,10 +50,6 @@ const FilterBox = ({ data, filters, handleFilters, handleCostRange, handleCusine
         position="sticky"
         top="104px"
       >
-        {/* <Typography variant="h6" color="#192F60">
-          Filters
-        </Typography> */}
-
         <Typography my={1}>Select Location</Typography>
         <FormControl size="small" sx={{ width: "200px" }}>
           <InputLabel id="demo-simple-select-label">Location</InputLabel>

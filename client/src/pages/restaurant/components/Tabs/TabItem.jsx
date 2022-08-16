@@ -1,5 +1,6 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import useFetch from "../../../../hooks/useFetch";
+import "react-tabs/style/react-tabs.css";
 import "./tabs.css";
 
 const TabItem = ({ id }) => {

@@ -5,7 +5,7 @@ const CardItem = ({ img, title, desc }) => {
   return (
     <Link to={`/filter?mealtype=${title}`} style={{ textDecoration: "none", color: "inherit" }}>
       <Card sx={{ display: "flex", width: "360px", height: "160px", marginBottom: "30px" }}>
-        <Box sx={{ display: "flex" }}>
+        <Box display="flex">
           <CardMedia
             component="img"
             sx={{
